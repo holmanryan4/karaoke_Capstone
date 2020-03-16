@@ -52,7 +52,7 @@ namespace Hot_Mic_Karaoke.Controllers
         // GET: Members/Create
         public IActionResult Create()
         {
-            ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id");
+           ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id");
             ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id");
             ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id", "EventLocation");
             return View();
@@ -63,7 +63,7 @@ namespace Hot_Mic_Karaoke.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,AppUserId,AddressId,KeventsId")] Member member)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,AppUserId,Address")] Member member)
         {
             if (ModelState.IsValid)
             {
@@ -75,7 +75,7 @@ namespace Hot_Mic_Karaoke.Controllers
             }
             ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id", member.AddressId);
             ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", member.AppUserId);
-            ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id", "EventLocation", member.KeventsId);
+            //ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id", "EventLocation", member.KeventsId);
             return View(member);
         }
 
