@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Hot_Mic_Karaoke.Models;
 
 namespace Hot_Mic_Karaoke.Data
 {
@@ -21,11 +22,20 @@ namespace Hot_Mic_Karaoke.Data
                 .HasData(
                     new IdentityRole
                     {
-                        Name = "Admin",
-                        NormalizedName = "ADMIN"
-                    }
+                        Name = "Member",
+                        NormalizedName = "MEMBER"
+                    },
+                     new IdentityRole
+                     {
+                         Name = "Business",
+                         NormalizedName = "BUSINESS",
+
+                     }
                 );
         }
+        public DbSet<Hot_Mic_Karaoke.Models.Member> Member { get; set; }
+        public DbSet<Hot_Mic_Karaoke.Models.Business> Business { get; set; }
+        public DbSet<Hot_Mic_Karaoke.Models.Kevents> Kevents { get; set; }
 
     }
 }

@@ -92,9 +92,18 @@ namespace Hot_Mic_Karaoke.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    await _signInManager.SignInAsync(user, isPersistent: false);
                     if (await _roleManager.RoleExistsAsync(Input.Role))
                     {
                         await _userManager.AddToRoleAsync(user, Input.Role);
+                    }
+                    if (Input.Role == "Member")
+                    {
+                        return RedirectToAction("Create", "Members");
+                    }
+                    if (Input.Role == "Business")
+                    {
+                        return RedirectToAction("Create", "Businesses");
                     }
 
                     _logger.LogInformation("User created a new account with password.");

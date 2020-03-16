@@ -1,0 +1,64 @@
+﻿@model Hot_Mic_Karaoke.Models.Business
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Business</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <div class="form-group">
+                <label asp-for="BusinessName" class="control-label"></label>
+                <input asp-for="BusinessName" class="form-control" />
+                <span asp-validation-for="BusinessName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdminFirstName" class="control-label"></label>
+                <input asp-for="AdminFirstName" class="form-control" />
+                <span asp-validation-for="AdminFirstName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AdminLastName" class="control-label"></label>
+                <input asp-for="AdminLastName" class="form-control" />
+                <span asp-validation-for="AdminLastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="BusinessPhoneNumber" class="control-label"></label>
+                <input asp-for="BusinessPhoneNumber" class="form-control" />
+                <span asp-validation-for="BusinessPhoneNumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AppUserId" class="control-label"></label>
+                <select asp-for="AppUserId" class="form-control" asp-items="ViewBag.AppUserId"></select>
+                <span asp-validation-for="AppUserId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="AddressId" class="control-label"></label>
+                <select asp-for="AddressId" class="form-control" asp-items="ViewBag.AddressId"></select>
+                <span asp-validation-for="AddressId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="KeventsId" class="control-label"></label>
+                <select asp-for="KeventsId" class="form-control" asp-items="ViewBag.KeventsId"></select>
+                <span asp-validation-for="KeventsId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
