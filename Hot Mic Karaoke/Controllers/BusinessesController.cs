@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Hot_Mic_Karaoke.Data;
 using Hot_Mic_Karaoke.Models;
+using System.Security.Claims;
 
 namespace Hot_Mic_Karaoke.Controllers
 {
@@ -22,7 +23,7 @@ namespace Hot_Mic_Karaoke.Controllers
         // GET: Businesses
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Business.Include(b => b.Address).Include(b => b.AppUser).Include(b => b.Kevents);
+            var applicationDbContext = _context.Business.Include(b => b.Address).Include(b => b.AppUser);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -37,7 +38,7 @@ namespace Hot_Mic_Karaoke.Controllers
             var business = await _context.Business
                 .Include(b => b.Address)
                 .Include(b => b.AppUser)
-                .Include(b => b.Kevents)
+               // .Include(b => b.Kevents)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (business == null)
             {
@@ -52,7 +53,7 @@ namespace Hot_Mic_Karaoke.Controllers
         {
             ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id");
             ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id", "EventLocation");
+            //ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id", "EventLocation");
             return View();
         }
 
@@ -61,17 +62,19 @@ namespace Hot_Mic_Karaoke.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,BusinessName,AdminFirstName,AdminLastName,BusinessPhoneNumber,AppUserId,AddressId,KeventsId")] Business business)
+        public async Task<IActionResult> Create(Business business)
         {
             if (ModelState.IsValid)
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                business.AppUserId = userId;
                 _context.Add(business);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction("Index", "Businesses");
             }
             ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id", business.AddressId);
             ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", business.AppUserId);
-            ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id", "EventLocation", business.KeventsId);
+           // ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id", "EventLocation", business.KeventsId);
             return View(business);
         }
 
@@ -90,7 +93,7 @@ namespace Hot_Mic_Karaoke.Controllers
             }
             ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id", business.AddressId);
             ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", business.AppUserId);
-            ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id", "EventLocation", business.KeventsId);
+            //ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id", "EventLocation", business.KeventsId);
             return View(business);
         }
 
@@ -128,7 +131,7 @@ namespace Hot_Mic_Karaoke.Controllers
             }
             ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id", business.AddressId);
             ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", business.AppUserId);
-            ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id", "EventLocation", business.KeventsId);
+           // ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id", "EventLocation", business.KeventsId);
             return View(business);
         }
 
@@ -143,7 +146,7 @@ namespace Hot_Mic_Karaoke.Controllers
             var business = await _context.Business
                 .Include(b => b.Address)
                 .Include(b => b.AppUser)
-                .Include(b => b.Kevents)
+               // .Include(b => b.Kevents)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (business == null)
             {

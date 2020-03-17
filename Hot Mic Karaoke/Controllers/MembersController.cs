@@ -39,7 +39,7 @@ namespace Hot_Mic_Karaoke.Controllers
             var member = await _context.Member
                 .Include(m => m.Address)
                 .Include(m => m.AppUser)
-                .Include(m => m.Kevents)
+                //.Include(m => m.Kevents)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (member == null)
             {
@@ -54,7 +54,7 @@ namespace Hot_Mic_Karaoke.Controllers
         {
            ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id");
             ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id");
-            ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id", "EventLocation");
+           //ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id");
             return View();
         }
 
@@ -63,7 +63,7 @@ namespace Hot_Mic_Karaoke.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,AppUserId,Address")] Member member)
+        public async Task<IActionResult> Create(Member member)
         {
             if (ModelState.IsValid)
             {
@@ -75,7 +75,7 @@ namespace Hot_Mic_Karaoke.Controllers
             }
             ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id", member.AddressId);
             ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", member.AppUserId);
-            //ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id", "EventLocation", member.KeventsId);
+           // ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id", "Id", member.KeventsId);
             return View(member);
         }
 
@@ -94,7 +94,7 @@ namespace Hot_Mic_Karaoke.Controllers
             }
             ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id", member.AddressId);
             ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", member.AppUserId);
-            ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id", "EventLocation", member.KeventsId);
+          //  ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id", "EventLocation", member.KeventsId);
             return View(member);
         }
 
@@ -132,7 +132,7 @@ namespace Hot_Mic_Karaoke.Controllers
             }
             ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id", member.AddressId);
             ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", member.AppUserId);
-            ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id", "EventLocation", member.KeventsId);
+            //ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id", "EventLocation", member.KeventsId);
             return View(member);
         }
 
@@ -147,7 +147,7 @@ namespace Hot_Mic_Karaoke.Controllers
             var member = await _context.Member
                 .Include(m => m.Address)
                 .Include(m => m.AppUser)
-                .Include(m => m.Kevents)
+               // .Include(m => m.Kevents)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (member == null)
             {
