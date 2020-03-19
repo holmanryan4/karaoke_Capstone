@@ -71,7 +71,7 @@ namespace Hot_Mic_Karaoke.Controllers
                 member.AppUserId = userId;
                 _context.Add(member);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Members");
+                return RedirectToAction("MemberHomePage", "Members");
             }
             ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id", member.AddressId);
             ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", member.AppUserId);
@@ -171,6 +171,14 @@ namespace Hot_Mic_Karaoke.Controllers
         private bool MemberExists(int id)
         {
             return _context.Member.Any(e => e.Id == id);
+        }
+        public IActionResult MemberHomePage()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var currentUser = _context.Member.Where(c => c.AppUserId == userId).Include("Address").FirstOrDefault();
+
+            return View();
+
         }
     }
 }

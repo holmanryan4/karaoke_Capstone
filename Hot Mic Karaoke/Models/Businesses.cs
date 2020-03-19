@@ -30,7 +30,7 @@ namespace Hot_Mic_Karaoke.Models
 
         [Required]
         [Display(Name = "Karaoke Night")]
-        public DateTime KaraokeNight { get; set; }
+        public string KaraokeNight { get; set; }
 
         [Required]
         [Display(Name = "Hours of Operation")]

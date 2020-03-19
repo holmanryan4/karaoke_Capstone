@@ -35,7 +35,7 @@ namespace Hot_Mic_Karaoke.Controllers
             }
             else if (userMember != null)
             {
-                return RedirectToAction("Index", "Member");
+                return RedirectToAction("MemberHomePage", "Member");
             }
             if (User.IsInRole("Business") && userBusiness == null)
             {
@@ -43,7 +43,7 @@ namespace Hot_Mic_Karaoke.Controllers
             }
             else if (userBusiness != null)
             {
-                return RedirectToAction("Index", "Businesses");
+                return RedirectToAction("BusinessHomePage", "Businesses");
             }
             else
             {

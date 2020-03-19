@@ -63,16 +63,13 @@
                     <option value="Friday">Friday</option>
                     <option value="Saturday">Saturday</option>
                 </select>
+                <span asp-validation-for="KaraokeNight" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="WorkHours" class="control-label"></label>
                 <input asp-for="WorkHours" class="form-control" />
                 <span asp-validation-for="WorkHours" class="text-danger"></span>
             </div>
-            @*<div class="form-group">
-            <label asp-for="KeventsId" class="control-label"></label>
-
-        </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

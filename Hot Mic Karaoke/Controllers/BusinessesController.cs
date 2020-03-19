@@ -51,6 +51,7 @@ namespace Hot_Mic_Karaoke.Controllers
         // GET: Businesses/Create
         public IActionResult Create()
         {
+
             ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id");
             ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id");
             //ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id", "EventLocation");
@@ -70,7 +71,7 @@ namespace Hot_Mic_Karaoke.Controllers
                 business.AppUserId = userId;
                 _context.Add(business);
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", "Businesses");
+                return RedirectToAction("BusinessHomePage", "Businesses");
             }
             ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id", business.AddressId);
             ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", business.AppUserId);
@@ -171,5 +172,14 @@ namespace Hot_Mic_Karaoke.Controllers
         {
             return _context.Business.Any(e => e.Id == id);
         }
+        public IActionResult BusinessHomePage()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var currentUser = _context.Business.Where(c => c.AppUserId == userId).Include("Address").FirstOrDefault();
+
+            return View();
+            
+        }
+
     }
 }
