@@ -8,6 +8,8 @@ using Microsoft.Extensions.Logging;
 using Hot_Mic_Karaoke.Models;
 using Hot_Mic_Karaoke.Data;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace Hot_Mic_Karaoke.Controllers
 {
@@ -15,20 +17,30 @@ namespace Hot_Mic_Karaoke.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext options)
+        public readonly UserManager<AppUser> _userManager;
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext options, UserManager<AppUser> userManager)
         {
             _context = options;
             _logger = logger;
+            _userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             var user = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var userMember = _context.Member.Where(s => s.AppUserId == user).FirstOrDefault();
-           
-            var userBusiness = _context.Business.Where(s => s.AppUserId == user).FirstOrDefault();
 
+            var userBusiness = _context.Business.Where(s => s.AppUserId == user).FirstOrDefault();
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewBag.CurrentUserName = currentUser.UserName;
+            }
+           
+            var messages = await _context.Messages.ToListAsync();
+
+           
+            
             if (User.IsInRole("Member") && userMember == null)
             {
                 return RedirectToAction("Create", "Members");
@@ -49,6 +61,19 @@ namespace Hot_Mic_Karaoke.Controllers
             {
                 return View();
             }
+        }
+        public async Task<IActionResult> Create(Message message)
+        {
+            if (ModelState.IsValid)
+            {
+                message.UserName = User.Identity.Name;
+                var sender = await _userManager.GetUserAsync(User);
+                message.UserID = sender.Id;
+                await _context.Messages.AddAsync(message);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            return Error();
         }
 
         public IActionResult Privacy()

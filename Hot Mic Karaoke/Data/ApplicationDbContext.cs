@@ -10,6 +10,8 @@ namespace Hot_Mic_Karaoke.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
+        
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -17,6 +19,10 @@ namespace Hot_Mic_Karaoke.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+            builder.Entity<Message>()
+                 .HasOne<AppUser>(a => a.Sender)
+                 .WithMany(d => d.Messages)
+                 .HasForeignKey(d => d.UserID);
 
             builder.Entity<IdentityRole>()
                 .HasData(
@@ -31,11 +37,12 @@ namespace Hot_Mic_Karaoke.Data
                          NormalizedName = "BUSINESS",
 
                      }
-                );
+                    );        
+            
         }
         public DbSet<Hot_Mic_Karaoke.Models.Member> Member { get; set; }
         public DbSet<Hot_Mic_Karaoke.Models.Business> Business { get; set; }
         public DbSet<Hot_Mic_Karaoke.Models.Kevents> Kevents { get; set; }
-
+        public DbSet<Hot_Mic_Karaoke.Models.Message> Messages { get; set; }
     }
 }

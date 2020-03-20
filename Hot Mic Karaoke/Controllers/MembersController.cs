@@ -9,11 +9,13 @@ using Hot_Mic_Karaoke.Data;
 using Hot_Mic_Karaoke.Models;
 using System.Security.Claims;
 
+
 namespace Hot_Mic_Karaoke.Controllers
 {
     public class MembersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        
 
         public MembersController(ApplicationDbContext context)
         {
@@ -23,10 +25,15 @@ namespace Hot_Mic_Karaoke.Controllers
         // GET: Members
         public async Task<IActionResult> Index()
         {
+            List<Message> msg  = new List<Message>();
+            MemberMessages memberMsg = new MemberMessages();
+            memberMsg.Messages = msg;
             //var applicationDbContext = _context.Member.Include(m => m.Address).Include(m => m.AppUser).Include(m => m.Kevents);
             var applicationDbContext = _context.Member.Include("Address");
             return View(await applicationDbContext.ToListAsync());
         }
+        
+       
 
         // GET: Members/Details/5
         public async Task<IActionResult> Details(int? id)

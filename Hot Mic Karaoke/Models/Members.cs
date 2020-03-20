@@ -34,6 +34,7 @@ namespace Hot_Mic_Karaoke.Models
         //[ForeignKey("Kevents")]
         //public int KeventsId { get; set; }
         //public Kevents Kevents { get; set; }
-
+        public List<MemberMessages> memberMessages { get; set; }
     }
+   
 }

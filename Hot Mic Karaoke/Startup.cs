@@ -12,6 +12,8 @@ using Hot_Mic_Karaoke.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Hot_Mic_Karaoke.Hubs;
+using Hot_Mic_Karaoke.Models;
 
 namespace Hot_Mic_Karaoke
 {
@@ -30,16 +32,17 @@ namespace Hot_Mic_Karaoke
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<IdentityUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
+            services.AddIdentity<AppUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
-
+            services.AddSignalR();
             services.AddControllersWithViews();
             services.AddRazorPages();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        [Obsolete]
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
@@ -60,7 +63,10 @@ namespace Hot_Mic_Karaoke
 
             app.UseAuthentication();
             app.UseAuthorization();
-
+            app.UseSignalR(route =>
+            {
+                route.MapHub<ChatHub>("/Home/Index");
+            });
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
