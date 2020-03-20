@@ -20,7 +20,7 @@ namespace Hot_Mic_Karaoke.Data
         {
             base.OnModelCreating(builder);
             builder.Entity<Message>()
-                 .HasOne<AppUser>(a => a.Sender)
+                 .HasOne<AppUserM>(a => a.Sender)
                  .WithMany(d => d.Messages)
                  .HasForeignKey(d => d.UserID);
 

@@ -17,6 +17,12 @@ namespace Hot_Mic_Karaoke.Models
         public DateTime When { get; set; }
 
         public string UserID { get; set; }
-        public virtual AppUser Sender { get; set; }
+        public virtual AppUserM Sender { get; set; }
+
+        public Message()
+        {
+            When = DateTime.Now;
+        }
+      
     }
 }

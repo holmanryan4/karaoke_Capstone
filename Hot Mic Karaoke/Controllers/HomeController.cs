@@ -17,28 +17,20 @@ namespace Hot_Mic_Karaoke.Controllers
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger<HomeController> _logger;
-        public readonly UserManager<AppUser> _userManager;
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext options, UserManager<AppUser> userManager)
-        {
+        public readonly UserManager<AppUserM> _userManager;
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext options, UserManager<AppUserM> userManager){ 
+        
             _context = options;
             _logger = logger;
             _userManager = userManager;
         }
-
-        public async Task<IActionResult> Index()
+        
+        public IActionResult Index()
         {
             var user = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var userMember = _context.Member.Where(s => s.AppUserId == user).FirstOrDefault();
 
             var userBusiness = _context.Business.Where(s => s.AppUserId == user).FirstOrDefault();
-            var currentUser = await _userManager.GetUserAsync(User);
-            if (User.Identity.IsAuthenticated)
-            {
-                ViewBag.CurrentUserName = currentUser.UserName;
-            }
-           
-            var messages = await _context.Messages.ToListAsync();
-
            
             
             if (User.IsInRole("Member") && userMember == null)
@@ -47,7 +39,7 @@ namespace Hot_Mic_Karaoke.Controllers
             }
             else if (userMember != null)
             {
-                return RedirectToAction("MemberHomePage", "Member");
+                return RedirectToAction("MemberHomePage", "Members");
             }
             if (User.IsInRole("Business") && userBusiness == null)
             {
@@ -61,6 +53,18 @@ namespace Hot_Mic_Karaoke.Controllers
             {
                 return View();
             }
+            
+
+        }
+        public async Task<IActionResult> MessagerIndex()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewBag.CurrentUserName = currentUser.UserName;
+            }
+            var messages = await _context.Messages.ToListAsync();
+            return View(messages);
         }
         public async Task<IActionResult> Create(Message message)
         {

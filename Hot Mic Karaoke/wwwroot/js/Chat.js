@@ -23,12 +23,12 @@ document.getElementById('submitButton').addEventListener('click', () => {
 
 function clearInputField() {
     messagesQueue.push(textInput.value);
-    textInput.value = "";
+    textInput.value = " ";
 }
 
 function sendMessage() {
     let text = messagesQueue.shift() || "";
-    if (text.trim() === "") return;
+    if (text.trim() === " ") return;
 
     let when = new Date();
     let message = new Message(Username, text);
@@ -52,7 +52,8 @@ function addMessageToChat(message) {
     var currentdate = new Date();
     when.innerHTML =
         (currentdate.getMonth() + 1) + "/"
-         + currentdate.getDate() + "/"
+    + currentdate.getDate() + "/"
+    + currentdate.getFullYear() + " "
         + currentdate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric' })
 
     container.appendChild(sender);
