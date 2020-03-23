@@ -6,17 +6,15 @@ using System.Threading.Tasks;
 
 namespace Hot_Mic_Karaoke.Models
 {
-    public class Kevents
+    public class SongList 
     {
         [Key]
         public int Id { get; set; }
-
-        [Display(Name = "Event Location")]
         [Required]
-        public string EventLocation { get; set; }
-
-        [Display(Name = "Date and Time")]
+        public string Title { get; set; }
+        public string Artist { get; set; }
+        public string Comments { get; set; }
         [Required]
-        public DateTime DateAndTime { get; set; }
+        public int Rating { get; set; }
     }
 }

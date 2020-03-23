@@ -42,7 +42,7 @@ namespace Hot_Mic_Karaoke.Data
         }
         public DbSet<Hot_Mic_Karaoke.Models.Member> Member { get; set; }
         public DbSet<Hot_Mic_Karaoke.Models.Business> Business { get; set; }
-        public DbSet<Hot_Mic_Karaoke.Models.Kevents> Kevents { get; set; }
+        public DbSet<Hot_Mic_Karaoke.Models.SongList> SongList { get; set; }
         public DbSet<Hot_Mic_Karaoke.Models.Message> Messages { get; set; }
     }
 }

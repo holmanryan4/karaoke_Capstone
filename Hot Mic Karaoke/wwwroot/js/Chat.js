@@ -2,13 +2,13 @@
     constructor(username, text, when) {
         this.user.userName = username;
         this.text = text;
-        this.when;
+        this.when = when;
     }
 }
 
 //userName is declared in razor page.
 const username = userName;
-const textinput = document.getElementById('messageText');
+const textInput = document.getElementById('messageText');
 const chat = document.getElementById('chat');
 const messagesQueue = [];
 
@@ -16,30 +16,31 @@ document.getElementById('submitButton').addEventListener('click', () => {
     var currentdate = new Date();
     when.innerHTML =
         (currentdate.getMonth() + 1) + "/"
-        + currentdate.getDate() + "/"
-    + currentdate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric' })
+         + currentdate.getDate() + "/"
+         + currentdate.getFullYear() + " "
+         + currentdate.toLocaleString('en-US', { hour: 'numeric', minute: 'numeric', second: 'numeric' })
 });
 
 
 function clearInputField() {
     messagesQueue.push(textInput.value);
-    textInput.value = " ";
+    textInput.value = "";
 }
 
 function sendMessage() {
     let text = messagesQueue.shift() || "";
-    if (text.trim() === " ") return;
+    if (text.trim() === "") return;
 
     let when = new Date();
-    let message = new Message(Username, text);
-    sendMessageToHub(Message);
+    let message = new Message(username, text);
+    sendMessageToHub(message);
 }
 
 function addMessageToChat(message) {
     let isCurrentUserMessage = message.userName === username;
 
     let container = document.createElement('div');
-    container.className = isCurrentUsermessage ? "container darker" : "container";
+    container.className = isCurrentUserMessage ? "container darker" : "container";
 
     let sender = document.createElement('p');
     container.className = "sender";

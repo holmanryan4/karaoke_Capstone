@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Hot_Mic_Karaoke.Models
 {
-    public class Member
+    public class Member 
     {
         [Key]
         public int Id { get; set; }
@@ -31,10 +31,8 @@ namespace Hot_Mic_Karaoke.Models
         public int AddressId { get; set; }
         public Address Address { get; set; }
 
-        //[ForeignKey("Kevents")]
-        //public int KeventsId { get; set; }
-        //public Kevents Kevents { get; set; }
-        public List<MemberMessages> memberMessages { get; set; }
+       
+        public List<MemberMessages> MemberMessages { get; set; }
     }
    
 }

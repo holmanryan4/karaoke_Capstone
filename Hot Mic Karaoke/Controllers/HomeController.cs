@@ -31,8 +31,8 @@ namespace Hot_Mic_Karaoke.Controllers
             var userMember = _context.Member.Where(s => s.AppUserId == user).FirstOrDefault();
 
             var userBusiness = _context.Business.Where(s => s.AppUserId == user).FirstOrDefault();
-           
-            
+
+
             if (User.IsInRole("Member") && userMember == null)
             {
                 return RedirectToAction("Create", "Members");

@@ -2,13 +2,13 @@
     .withUrl('/Home/MessagerIndex')
     .build();
 
-connection.on('receiveMessage', addmessageToChat);
+connection.on('receiveMessage', addMessageToChat);
 
 connection.start()
     .catch(error => {
         console.error(error.message);
     });
 
-function sendmessageToHub(message) {
+function sendMessageToHub(message) {
     connection.invoke('sendMessage', message)
 }

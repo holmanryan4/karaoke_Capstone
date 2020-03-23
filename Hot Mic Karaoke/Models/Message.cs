@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Hot_Mic_Karaoke.Models
 {
-    public class Message
+    public class Message 
     {
         
         public int Id { get; set; }

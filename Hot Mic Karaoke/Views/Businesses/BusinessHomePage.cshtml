@@ -1,8 +1,85 @@
-﻿@model IEnumerable<Hot_Mic_Karaoke.Models.Business>
+﻿@model IEnumerable<Hot_Mic_Karaoke.Models.BusinessMessages>
 
 @{
     ViewData["Title"] = "BusinessHomePage";
+    var username = User.Identity.Name;
 }
 
 <h1>Business Homepage</h1>
 
+<div class="jumbotron bg-light">
+    <h2 class="text-center text-primary">
+        <i class="fab fa-facebook-messenger"></i>&nbsp; Public Talk
+    </h2>
+
+    <div class="row">
+        <div class="col-md-12" id="chat">
+            @if (Model != null)
+            {
+                @foreach (var message in Model.OrderBy(m => m.When))
+                {
+                    string containerClass, timePosition, textAlign, contColor, offset;
+                    if (username == message.UserName)
+                    {
+                        containerClass = "container darker";
+                        timePosition = "time-right text-light";
+                        textAlign = "text-right text-white";
+                        contColor = "bg-primary";
+                        offset = "col-md-6 offset-md-6";
+                    }
+                    else
+                    {
+                        containerClass = "container";
+                        timePosition = "time-left";
+                        textAlign = "text-left";
+                        contColor = "bg-light";
+                        offset = "";
+
+                    }
+                    <div class="row">
+                        <div class="@offset">
+                            <div class="@containerClass  @contColor">
+                                <p class="sender @textAlign">@message.UserName</p>
+                                <p class="@textAlign">@message.text</p>
+                                <span class="@timePosition">@message.When.ToString()</span>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            }
+        </div>
+        <div class="col-md-12">
+            <form asp-action="Create"
+                  data-ajax-begin="clearInputField" data-ajax-complete=""
+                  data-ajax-failure="alert('Fail')" data-ajax-success="sendMessage"
+                  data-ajax="true" data-ajax-method="POST">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <input name="Text" class="form-control" id="messageText" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Send" id="submitButton" onclick="window.location.href(@Url.Action("Create","HomeController"))" class="btn btn-primary" />
+                </div>
+                <input type="hidden" value="@username" name="username" />
+            </form>
+        </div>
+    </div>
+</div>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <script>
+    const userName = "@ViewBag.CurrentUserName";
+    </script>
+}
+
+
+
+@section scripts {
+    <script src="~/signalr/signalr.min.js"></script>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/Chat.js"></script>
+    <script src="~/js/signalReqHandler.js"></script>
+
+}
