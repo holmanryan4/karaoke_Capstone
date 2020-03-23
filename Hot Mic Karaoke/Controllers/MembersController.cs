@@ -30,7 +30,7 @@ namespace Hot_Mic_Karaoke.Controllers
             memberMsg.Messages = msg;
             //var applicationDbContext = _context.Member.Include(m => m.Address).Include(m => m.AppUser).Include(m => m.Kevents);
             var applicationDbContext = _context.Member.Include("Address").Include("SongList");
-            var songs = _context.SongList.Include("Title").Include("Artist").Include("Comment").Include("Rating");
+            //var songs = _context.SongList.Include("Title").Include("Artist").Include("Comment").Include("Rating");
             return View(await applicationDbContext.ToListAsync());
         }
         

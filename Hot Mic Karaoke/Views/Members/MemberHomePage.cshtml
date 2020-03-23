@@ -50,8 +50,8 @@
                     </div>
 
                 }
-            }
-        </div>*@
+            }*@
+        </div>
         <div class="col-md-12">
             <form asp-action="Create"
                   data-ajax-begin="clearInputField" data-ajax-complete=""
@@ -94,8 +94,7 @@
             </tr>
         </thead>
         <tbody>
-            @foreach (var item in Model)
-            {
+            @foreach (var item in Model) {
                 <tr>
                     <td>
                         @Html.DisplayFor(modelItem => item.Title)

@@ -31,7 +31,11 @@ namespace Hot_Mic_Karaoke.Models
         public int AddressId { get; set; }
         public Address Address { get; set; }
 
-       
+        [ForeignKey("Song List")]
+        public int SongListId { get; set; }
+        public SongList SongList { get; set; }
+
+
         public List<MemberMessages> MemberMessages { get; set; }
     }
    
