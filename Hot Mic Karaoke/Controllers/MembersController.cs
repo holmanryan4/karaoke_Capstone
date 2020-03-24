@@ -8,14 +8,15 @@ using Microsoft.EntityFrameworkCore;
 using Hot_Mic_Karaoke.Data;
 using Hot_Mic_Karaoke.Models;
 using System.Security.Claims;
-
+using Microsoft.AspNetCore.Identity;
+using System.Diagnostics;
 
 namespace Hot_Mic_Karaoke.Controllers
 {
     public class MembersController : Controller
     {
         private readonly ApplicationDbContext _context;
-        
+        public readonly UserManager<AppUserM> _userManager;
 
         public MembersController(ApplicationDbContext context)
         {
@@ -184,9 +185,38 @@ namespace Hot_Mic_Karaoke.Controllers
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var currentUser = _context.Member.Where(c => c.AppUserId == userId).Include("Address").FirstOrDefault();
+            MessagerIndex();
 
             return View();
 
         }
+        public async Task<IActionResult> MessagerIndex()
+        {
+            var currentUser = await _userManager.GetUserAsync(User);
+            if (User.Identity.IsAuthenticated)
+            {
+                ViewBag.CurrentUserName = currentUser.UserName;
+            }
+            var messages = await _context.Messages.ToListAsync();
+            return View(messages);
+        }
+        public async Task<IActionResult> Create(Message message)
+        {
+            if (ModelState.IsValid)
+            {
+                message.UserName = User.Identity.Name;
+                var sender = await _userManager.GetUserAsync(User);
+                message.UserID = sender.Id;
+                await _context.Messages.AddAsync(message);
+                await _context.SaveChangesAsync();
+                return Ok();
+            }
+            return Error();
+        }
+        public IActionResult Error()
+        {
+            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
     }
 }

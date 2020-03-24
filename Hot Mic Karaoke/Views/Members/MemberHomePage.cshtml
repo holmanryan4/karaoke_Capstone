@@ -1,9 +1,10 @@
-﻿@model IEnumerable<Hot_Mic_Karaoke.Models.MemberMessages>
+﻿@model IEnumerable<Hot_Mic_Karaoke.Models.Message>
 
 
 
 @{
     ViewData["Title"] = "MemberHomePage";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     var username = User.Identity.Name;
     
 }
@@ -17,7 +18,7 @@
 
     <div class="row">
         <div class="col-md-12" id="chat">
-            @*@if (Model != null)
+            @if (Model != null)
             {
                 @foreach (var message in Model.OrderBy(m => m.When))
                 {
@@ -38,8 +39,8 @@
                         contColor = "bg-light";
                         offset = "";
 
-                    }*@
-                    @*<div class="row">
+                    }
+                    <div class="row">
                         <div class="@offset">
                             <div class="@containerClass  @contColor">
                                 <p class="sender @textAlign">@message.UserName</p>
@@ -50,7 +51,7 @@
                     </div>
 
                 }
-            }*@
+            }
         </div>
         <div class="col-md-12">
             <form asp-action="Create"
@@ -75,48 +76,7 @@
     <p>
         <a asp-action="Create">Add New Song</a>
     </p>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.Title)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Artist)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Comments)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.Rating)
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model) {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Title)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Artist)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Comments)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Rating)
-                    </td>
-                   
-                    <td>
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+   
 
 
 </div>
