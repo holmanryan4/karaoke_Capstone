@@ -29,7 +29,6 @@ namespace Hot_Mic_Karaoke.Controllers
         {
             var user = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var userMember = _context.Member.Where(s => s.AppUserId == user).FirstOrDefault();
-
             var userBusiness = _context.Business.Where(s => s.AppUserId == user).FirstOrDefault();
 
 
@@ -56,9 +55,11 @@ namespace Hot_Mic_Karaoke.Controllers
             
 
         }
-        public async Task<IActionResult> MessagerIndex()
+        public async Task<IActionResult> iChat()
         {
+
             var currentUser = await _userManager.GetUserAsync(User);
+           
             if (User.Identity.IsAuthenticated)
             {
                 ViewBag.CurrentUserName = currentUser.UserName;
@@ -75,7 +76,7 @@ namespace Hot_Mic_Karaoke.Controllers
                 message.UserID = sender.Id;
                 await _context.Messages.AddAsync(message);
                 await _context.SaveChangesAsync();
-                return Ok();
+                return RedirectToAction("iChat");
             }
             return Error();
         }

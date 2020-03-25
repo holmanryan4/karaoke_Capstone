@@ -65,7 +65,7 @@ namespace Hot_Mic_Karaoke
             app.UseAuthorization();
             app.UseSignalR(route =>
             {
-                route.MapHub<ChatHub>("/Home/Index");
+                route.MapHub<ChatHub>("/iChat");
             });
             app.UseEndpoints(endpoints =>
             {

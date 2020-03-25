@@ -16,7 +16,7 @@ namespace Hot_Mic_Karaoke.Controllers
     public class MembersController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public readonly UserManager<AppUserM> _userManager;
+       
 
         public MembersController(ApplicationDbContext context)
         {
@@ -26,9 +26,9 @@ namespace Hot_Mic_Karaoke.Controllers
         // GET: Members
         public async Task<IActionResult> Index()
         {
-            List<Message> msg  = new List<Message>();
-            MemberMessages memberMsg = new MemberMessages();
-            memberMsg.Messages = msg;
+            //List<Message> msg  = new List<Message>();
+            //MemberMessages memberMsg = new MemberMessages();
+            //memberMsg.Messages = msg;
             //var applicationDbContext = _context.Member.Include(m => m.Address).Include(m => m.AppUser).Include(m => m.Kevents);
             var applicationDbContext = _context.Member.Include("Address").Include("SongList");
             //var songs = _context.SongList.Include("Title").Include("Artist").Include("Comment").Include("Rating");
@@ -63,7 +63,8 @@ namespace Hot_Mic_Karaoke.Controllers
         {
            ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id");
             ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id");
-           //ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id");
+           ViewData["SonglistId"] = new SelectList(_context.Set<SongList>(), "Id", "Id");
+            //ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id");
             return View();
         }
 
@@ -79,12 +80,13 @@ namespace Hot_Mic_Karaoke.Controllers
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 member.AppUserId = userId;
                 _context.Add(member);
+                
                 await _context.SaveChangesAsync();
                 return RedirectToAction("MemberHomePage", "Members");
             }
             ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id", member.AddressId);
             ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", member.AppUserId);
-           // ViewData["KeventsId"] = new SelectList(_context.Set<Kevents>(), "Id", "Id", member.KeventsId);
+            ViewData["SonglistId"] = new SelectList(_context.Set<SongList>(), "Id", "Id", member.SongListId);
             return View(member);
         }
 
@@ -183,40 +185,15 @@ namespace Hot_Mic_Karaoke.Controllers
         }
         public IActionResult MemberHomePage()
         {
+            var applicationDbContext = _context.Member.Include("Address").Include("SongList");
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var currentUser = _context.Member.Where(c => c.AppUserId == userId).Include("Address").FirstOrDefault();
-            MessagerIndex();
+            
 
             return View();
 
         }
-        public async Task<IActionResult> MessagerIndex()
-        {
-            var currentUser = await _userManager.GetUserAsync(User);
-            if (User.Identity.IsAuthenticated)
-            {
-                ViewBag.CurrentUserName = currentUser.UserName;
-            }
-            var messages = await _context.Messages.ToListAsync();
-            return View(messages);
-        }
-        public async Task<IActionResult> Create(Message message)
-        {
-            if (ModelState.IsValid)
-            {
-                message.UserName = User.Identity.Name;
-                var sender = await _userManager.GetUserAsync(User);
-                message.UserID = sender.Id;
-                await _context.Messages.AddAsync(message);
-                await _context.SaveChangesAsync();
-                return Ok();
-            }
-            return Error();
-        }
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+       
 
     }
 }
