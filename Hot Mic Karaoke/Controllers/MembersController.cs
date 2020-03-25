@@ -30,7 +30,7 @@ namespace Hot_Mic_Karaoke.Controllers
             //MemberMessages memberMsg = new MemberMessages();
             //memberMsg.Messages = msg;
             //var applicationDbContext = _context.Member.Include(m => m.Address).Include(m => m.AppUser).Include(m => m.Kevents);
-            var applicationDbContext = _context.Member.Include("Address").Include("SongList");
+            var applicationDbContext = _context.Member.Include("Address").Include("SongLists");
             //var songs = _context.SongList.Include("Title").Include("Artist").Include("Comment").Include("Rating");
             return View(await applicationDbContext.ToListAsync());
         }
@@ -79,14 +79,18 @@ namespace Hot_Mic_Karaoke.Controllers
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 member.AppUserId = userId;
+
+                ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id", member.AddressId);
+                ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", member.AppUserId);
+                //ViewData["SonglistId"] = new SelectList(_context.Set<SongList>(), "Id", "Id", member.SongListId);
                 _context.Add(member);
                 
                 await _context.SaveChangesAsync();
                 return RedirectToAction("MemberHomePage", "Members");
             }
-            ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id", member.AddressId);
-            ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", member.AppUserId);
-            ViewData["SonglistId"] = new SelectList(_context.Set<SongList>(), "Id", "Id", member.SongListId);
+            //ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id", member.AddressId);
+            //ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", member.AppUserId);
+            //ViewData["SonglistId"] = new SelectList(_context.Set<SongList>(), "Id", "Id", member.SongListId);
             return View(member);
         }
 

@@ -4,14 +4,16 @@ using Hot_Mic_Karaoke.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Hot_Mic_Karaoke.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200325221542_inital")]
+    partial class inital
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,16 +112,11 @@ namespace Hot_Mic_Karaoke.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("SongListId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
 
                     b.HasIndex("AppUserId");
-
-                    b.HasIndex("SongListId");
 
                     b.ToTable("Member");
                 });
@@ -130,9 +127,6 @@ namespace Hot_Mic_Karaoke.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("MemberMessagesId")
-                        .HasColumnType("int");
 
                     b.Property<string>("UserID")
                         .HasColumnType("nvarchar(450)");
@@ -149,8 +143,6 @@ namespace Hot_Mic_Karaoke.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("MemberMessagesId");
 
                     b.HasIndex("UserID");
 
@@ -170,9 +162,8 @@ namespace Hot_Mic_Karaoke.Migrations
                     b.Property<string>("Comments")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("MemberId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Rating")
                         .HasColumnType("int");
@@ -183,9 +174,9 @@ namespace Hot_Mic_Karaoke.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("SongList");
+                    b.HasIndex("MemberId");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("SongList");
+                    b.ToTable("SongList");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -217,15 +208,15 @@ namespace Hot_Mic_Karaoke.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "74e10377-5119-493e-b286-6756c5d062c7",
-                            ConcurrencyStamp = "0ce4c75e-e09e-4f5d-814d-6115b8e35800",
+                            Id = "dea75ec2-5b61-404f-8c12-bb714ee094c8",
+                            ConcurrencyStamp = "9bd09bd2-c998-46ee-9c72-56f2bdcd0348",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
-                            Id = "1a850dcf-0af8-4632-9cb5-3874878371cd",
-                            ConcurrencyStamp = "637fe03f-d7cd-42cb-8176-b4e9ba29549b",
+                            Id = "9318dafa-c289-4bdd-a93d-6bf1ce1ce0fb",
+                            ConcurrencyStamp = "b59417db-460b-4899-b68d-16708389aee2",
                             Name = "Business",
                             NormalizedName = "BUSINESS"
                         });
@@ -406,18 +397,6 @@ namespace Hot_Mic_Karaoke.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Hot_Mic_Karaoke.Models.MemberMessages", b =>
-                {
-                    b.HasBaseType("Hot_Mic_Karaoke.Models.SongList");
-
-                    b.Property<int?>("MemberId")
-                        .HasColumnType("int");
-
-                    b.HasIndex("MemberId");
-
-                    b.HasDiscriminator().HasValue("MemberMessages");
-                });
-
             modelBuilder.Entity("Hot_Mic_Karaoke.Models.AppUserM", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
@@ -449,23 +428,22 @@ namespace Hot_Mic_Karaoke.Migrations
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "AppUser")
                         .WithMany()
                         .HasForeignKey("AppUserId");
-
-                    b.HasOne("Hot_Mic_Karaoke.Models.SongList", "SongList")
-                        .WithMany()
-                        .HasForeignKey("SongListId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("Hot_Mic_Karaoke.Models.Message", b =>
                 {
-                    b.HasOne("Hot_Mic_Karaoke.Models.MemberMessages", null)
-                        .WithMany("Messages")
-                        .HasForeignKey("MemberMessagesId");
-
                     b.HasOne("Hot_Mic_Karaoke.Models.AppUserM", "Sender")
                         .WithMany("Messages")
                         .HasForeignKey("UserID");
+                });
+
+            modelBuilder.Entity("Hot_Mic_Karaoke.Models.SongList", b =>
+                {
+                    b.HasOne("Hot_Mic_Karaoke.Models.Member", "Member")
+                        .WithMany()
+                        .HasForeignKey("MemberId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -517,13 +495,6 @@ namespace Hot_Mic_Karaoke.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Hot_Mic_Karaoke.Models.MemberMessages", b =>
-                {
-                    b.HasOne("Hot_Mic_Karaoke.Models.Member", null)
-                        .WithMany("MemberMessages")
-                        .HasForeignKey("MemberId");
                 });
 #pragma warning restore 612, 618
         }

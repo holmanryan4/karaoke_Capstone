@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Hot_Mic_Karaoke.Migrations
 {
-    public partial class inital1 : Migration
+    public partial class inital : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -210,14 +210,7 @@ namespace Hot_Mic_Karaoke.Migrations
                     FirstName = table.Column<string>(nullable: false),
                     LastName = table.Column<string>(nullable: false),
                     AppUserId = table.Column<string>(nullable: true),
-                    AddressId = table.Column<int>(nullable: false),
-                    Discriminator = table.Column<string>(nullable: false),
-                    UserName = table.Column<string>(nullable: true),
-                    text = table.Column<string>(nullable: true),
-                    When = table.Column<DateTime>(nullable: true),
-                    UserID = table.Column<string>(nullable: true),
-                    MemberMessagesId = table.Column<int>(nullable: true),
-                    MemberId = table.Column<int>(nullable: true)
+                    AddressId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -234,35 +227,62 @@ namespace Hot_Mic_Karaoke.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Messages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserName = table.Column<string>(nullable: false),
+                    text = table.Column<string>(nullable: false),
+                    When = table.Column<DateTime>(nullable: false),
+                    UserID = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Messages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Member_Member_MemberId",
-                        column: x => x.MemberId,
-                        principalTable: "Member",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Member_Member_MemberMessagesId",
-                        column: x => x.MemberMessagesId,
-                        principalTable: "Member",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Member_AspNetUsers_UserID",
+                        name: "FK_Messages_AspNetUsers_UserID",
                         column: x => x.UserID,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "bb668e8e-8b56-475e-b500-a98f8d0f321a", "0a2f5d99-79ed-4738-a44a-3c8438105f83", "Member", "MEMBER" });
+            migrationBuilder.CreateTable(
+                name: "SongList",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Title = table.Column<string>(nullable: false),
+                    Artist = table.Column<string>(nullable: true),
+                    Comments = table.Column<string>(nullable: true),
+                    Rating = table.Column<int>(nullable: false),
+                    MemberId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SongList", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SongList_Member_MemberId",
+                        column: x => x.MemberId,
+                        principalTable: "Member",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "14cbda40-1085-40fc-9d84-f86a36f69341", "0cf72bb1-7fbb-44d6-8117-1a59c7c5d0f5", "Business", "BUSINESS" });
+                values: new object[] { "dea75ec2-5b61-404f-8c12-bb714ee094c8", "9bd09bd2-c998-46ee-9c72-56f2bdcd0348", "Member", "MEMBER" });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[] { "9318dafa-c289-4bdd-a93d-6bf1ce1ce0fb", "b59417db-460b-4899-b68d-16708389aee2", "Business", "BUSINESS" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -324,19 +344,14 @@ namespace Hot_Mic_Karaoke.Migrations
                 column: "AppUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Member_MemberId",
-                table: "Member",
-                column: "MemberId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Member_MemberMessagesId",
-                table: "Member",
-                column: "MemberMessagesId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Member_UserID",
-                table: "Member",
+                name: "IX_Messages_UserID",
+                table: "Messages",
                 column: "UserID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SongList_MemberId",
+                table: "SongList",
+                column: "MemberId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -360,10 +375,16 @@ namespace Hot_Mic_Karaoke.Migrations
                 name: "Business");
 
             migrationBuilder.DropTable(
-                name: "Member");
+                name: "Messages");
+
+            migrationBuilder.DropTable(
+                name: "SongList");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Member");
 
             migrationBuilder.DropTable(
                 name: "Address");
