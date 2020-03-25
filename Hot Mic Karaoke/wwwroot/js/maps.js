@@ -1,14 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0 user-scalable=no">
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyB9whEl4g8WSq6FISWqexwIaL2NhajoTDw">
-    </script>
-    </script>
-    <script>
+
+  
         var map;
-        var infowindow;
+        var infoWindow;
 
         var request;
         var service;
@@ -23,9 +16,9 @@
              request = {
                 location: center,
                 radius:8047,
-                types: ['karaoke']
+                types: ['bar']
             };
-            infowindow = new google.maps.InfoWindow();
+            infoWindow = new google.maps.InfoWindow();
 
             service = new google.maps.places.PlacesService(map);
 
@@ -38,16 +31,18 @@
                 var request = {
                     location: event.latLng,
                     radius: 8047,
-                    types: ['karaoke']
-                }
+                    types: ['bar']
+                };
+
+                service.nearbySearch(request, callback);
             })
 
-            service.nearbySearch(request, callback);
+           
         }
         function callback(results, status) {
             if(status == google.maps.places.PlacesServiceStatus.OK){
                 for (var i = 0; i < results.length; i++){
-                    markers.push(createMarker(results [i]));
+                    markers.push(createMarker(results[i]));
                 }
             }
         }
@@ -58,12 +53,14 @@
                 position: place.geometry.location
             });
 
-            google.maps.event.addListener(marker, 'click', function(){
-                infowindow.setContent(place.name);
-                infowindow.open(map, this);
+            google.maps.event.addListener(marker, 'click', function() {
+                infoWindow.setContent(place.name);
+                infoWindow.open(map, this);
             });
             return marker;
+
         }
+
         function clearResults(markers){
             for (var m in markers){
                 markers[m].setMap(null)
@@ -72,19 +69,9 @@
         }
 
         google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
-    <style>
-        html, body, #map{
-            height: 100%;
-            margin: 0px;
-            padding: 0px;
-        }
-    </style>
-    <title>Document</title>
-</head>
-<body>
-    <div id="map">
+  
+   
+   
 
-    </div>
-</body>
-</html>
+    
+
