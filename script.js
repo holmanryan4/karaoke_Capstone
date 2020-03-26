@@ -16,7 +16,7 @@ var pageToken = '';
 ytForm.addEventListener('submit', e => {
     e.preventDefault();
     execute();
-});
+}); 
  
 function paginate(e, obj) {
     e.preventDefault();

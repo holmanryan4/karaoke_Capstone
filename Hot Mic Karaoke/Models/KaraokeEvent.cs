@@ -8,20 +8,18 @@ using System.Threading.Tasks;
 
 namespace Hot_Mic_Karaoke.Models
 {
-    public class Member 
+    public class KaraokeEvent
     {
         
         public int Id { get; set; }
 
-        [Display(Name = "First Name")]
+        [Display(Name = "Name of Event ")]
         [Required]
-        public string FirstName { get; set; }
+        public string EventName { get; set; }
 
-        [Display(Name = "Last Name")]
+        [Display(Name = "Event Description")]
         [Required]
-        public string LastName { get; set; }
-        
-
+        public DateTime EventInfo { get; set; }
 
         [ForeignKey("AppUser")]
         public string AppUserId { get; set; }
@@ -33,8 +31,5 @@ namespace Hot_Mic_Karaoke.Models
 
         
         public ICollection<MemberEvent> MemberEvents { get; set; }
-
-
     }
-   
 }

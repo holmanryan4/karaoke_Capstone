@@ -202,6 +202,34 @@ namespace Hot_Mic_Karaoke.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "KaraokeEvent",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EventName = table.Column<string>(nullable: false),
+                    EventInfo = table.Column<DateTime>(nullable: false),
+                    AppUserId = table.Column<string>(nullable: true),
+                    AddressId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_KaraokeEvent", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_KaraokeEvent_Address_AddressId",
+                        column: x => x.AddressId,
+                        principalTable: "Address",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_KaraokeEvent_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Member",
                 columns: table => new
                 {
@@ -252,6 +280,30 @@ namespace Hot_Mic_Karaoke.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MemberEvent",
+                columns: table => new
+                {
+                    MemberId = table.Column<int>(nullable: false),
+                    KaraokeEventId = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MemberEvent", x => new { x.MemberId, x.KaraokeEventId });
+                    table.ForeignKey(
+                        name: "FK_MemberEvent_KaraokeEvent_KaraokeEventId",
+                        column: x => x.KaraokeEventId,
+                        principalTable: "KaraokeEvent",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_MemberEvent_Member_MemberId",
+                        column: x => x.MemberId,
+                        principalTable: "Member",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SongList",
                 columns: table => new
                 {
@@ -260,7 +312,7 @@ namespace Hot_Mic_Karaoke.Migrations
                     Title = table.Column<string>(nullable: false),
                     Artist = table.Column<string>(nullable: true),
                     Comments = table.Column<string>(nullable: true),
-                    Rating = table.Column<int>(nullable: false),
+                    Rating = table.Column<string>(nullable: false),
                     MemberId = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
@@ -277,12 +329,12 @@ namespace Hot_Mic_Karaoke.Migrations
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "dea75ec2-5b61-404f-8c12-bb714ee094c8", "9bd09bd2-c998-46ee-9c72-56f2bdcd0348", "Member", "MEMBER" });
+                values: new object[] { "0898f503-fe40-46fd-a652-a2acb90cb310", "f81d29f9-37c4-4c9b-9310-ee46df6938fb", "Member", "MEMBER" });
 
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
-                values: new object[] { "9318dafa-c289-4bdd-a93d-6bf1ce1ce0fb", "b59417db-460b-4899-b68d-16708389aee2", "Business", "BUSINESS" });
+                values: new object[] { "e2e877fa-8e80-4fcc-b1b5-01225c6849d6", "ca869c58-e6de-4680-a765-2f534917d31e", "Business", "BUSINESS" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -334,6 +386,16 @@ namespace Hot_Mic_Karaoke.Migrations
                 column: "AppUserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_KaraokeEvent_AddressId",
+                table: "KaraokeEvent",
+                column: "AddressId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_KaraokeEvent_AppUserId",
+                table: "KaraokeEvent",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Member_AddressId",
                 table: "Member",
                 column: "AddressId");
@@ -342,6 +404,11 @@ namespace Hot_Mic_Karaoke.Migrations
                 name: "IX_Member_AppUserId",
                 table: "Member",
                 column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MemberEvent_KaraokeEventId",
+                table: "MemberEvent",
+                column: "KaraokeEventId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Messages_UserID",
@@ -375,6 +442,9 @@ namespace Hot_Mic_Karaoke.Migrations
                 name: "Business");
 
             migrationBuilder.DropTable(
+                name: "MemberEvent");
+
+            migrationBuilder.DropTable(
                 name: "Messages");
 
             migrationBuilder.DropTable(
@@ -382,6 +452,9 @@ namespace Hot_Mic_Karaoke.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "KaraokeEvent");
 
             migrationBuilder.DropTable(
                 name: "Member");
