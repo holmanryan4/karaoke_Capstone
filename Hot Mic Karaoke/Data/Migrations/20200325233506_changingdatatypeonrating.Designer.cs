@@ -4,14 +4,16 @@ using Hot_Mic_Karaoke.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Hot_Mic_Karaoke.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200325233506_changingdatatypeonrating")]
+    partial class changingdatatypeonrating
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -207,15 +209,15 @@ namespace Hot_Mic_Karaoke.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "77e7ba2f-f75b-43ec-b6cc-223e9ecf3f82",
-                            ConcurrencyStamp = "6c8bc739-08df-48d5-875b-0a50b573fcf3",
+                            Id = "371afc28-4616-42fe-bb3f-fb6b1b86df3e",
+                            ConcurrencyStamp = "1105e8c2-569f-44bb-ae6c-7bccb49323dc",
                             Name = "Member",
                             NormalizedName = "MEMBER"
                         },
                         new
                         {
-                            Id = "345cd6b8-613d-4311-973b-5ea23b417ca1",
-                            ConcurrencyStamp = "d4684890-998a-40ec-beae-8e8e53e12adb",
+                            Id = "4e375704-69e8-46e4-a029-101fb73f36ff",
+                            ConcurrencyStamp = "a9f05d71-fa23-4657-8551-3bed081a69dd",
                             Name = "Business",
                             NormalizedName = "BUSINESS"
                         });

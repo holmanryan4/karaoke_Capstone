@@ -16,7 +16,7 @@ namespace Hot_Mic_Karaoke.Models
         public string Artist { get; set; }
         public string Comments { get; set; }
         [Required]
-        public int Rating { get; set; }
+        public string Rating { get; set; }
         
         [ForeignKey("Member")]
         public int MemberId { get; set; }

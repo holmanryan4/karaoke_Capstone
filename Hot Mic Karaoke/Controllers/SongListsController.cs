@@ -21,7 +21,7 @@ namespace Hot_Mic_Karaoke.Controllers
         }
 
         // GET: SongLists
-        public  IActionResult Index(Member member)
+        public async Task<IActionResult> Index(Member member, string searchString)
         {
             var user = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var userMember = _context.Member.Where(s => s.AppUserId == user).FirstOrDefault();
@@ -31,7 +31,22 @@ namespace Hot_Mic_Karaoke.Controllers
              .Distinct() // To eliminate duplicate customers in the result
              .ToList();
 
-            return View(songs);
+
+            var song = from m in _context.SongList
+                       .Where(o => o.Member.Id == userMember.Id)
+                       select m;
+
+                if (!String.IsNullOrEmpty(searchString))
+                {
+                song = song.Where(s => s.Rating.Contains(searchString));
+
+                 return View(await song.ToListAsync());
+                }
+
+               
+                return View(songs);
+     
+           
         }
 
         // GET: SongLists/Details/5

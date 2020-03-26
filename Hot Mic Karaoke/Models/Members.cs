@@ -34,7 +34,7 @@ namespace Hot_Mic_Karaoke.Models
 
        
         [NotMapped]
-        public List<MemberMessages> MemberMessages { get; set; }
+        public List<MemberEvent> MemberMessages { get; set; }
     }
    
 }

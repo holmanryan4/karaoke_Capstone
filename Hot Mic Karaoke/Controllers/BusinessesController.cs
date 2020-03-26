@@ -23,9 +23,9 @@ namespace Hot_Mic_Karaoke.Controllers
         // GET: Businesses
         public async Task<IActionResult> Index()
         {
-            List<Message> bMsg = new List<Message>();
-            BusinessMessages bizMsg = new BusinessMessages();
-            bizMsg.Messages = bMsg;
+            //List<Message> bMsg = new List<Message>();
+            //BusinessMessages bizMsg = new BusinessMessages();
+            //bizMsg.Messages = bMsg;
             var applicationDbContext = _context.Business.Include(b => b.Address).Include(b => b.AppUser);
             return View(await applicationDbContext.ToListAsync());
         }
