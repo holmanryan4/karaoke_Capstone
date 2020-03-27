@@ -29,7 +29,8 @@ function execute() {
     const searchString = keywordInput.value;
     const maxresult = maxresultInput.value;
     const orderby = orderInput.value;
- 
+
+    var arr_search = document.getElementById("btn");
     var arr_search = {
         "part": 'snippet',
         "type": 'video',
@@ -37,6 +38,11 @@ function execute() {
         "maxResults": maxresult,
         "q": searchString
     };
+    if (arr_search) {
+        arr_searchVal = arr_search.value;
+
+var search = document.getElementById("")
+}
  
     if (pageToken != '') {
         arr_search.pageToken = pageToken;

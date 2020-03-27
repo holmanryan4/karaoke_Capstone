@@ -19,7 +19,10 @@ namespace Hot_Mic_Karaoke.Models
 
         [Display(Name = "Event Description")]
         [Required]
-        public DateTime EventInfo { get; set; }
+        public string EventInfo { get; set; }
+        [Display(Name = "Date and Time of Event")]
+        [Required]
+        public DateTime DateAndTime { get; set; }
 
         [ForeignKey("AppUser")]
         public string AppUserId { get; set; }

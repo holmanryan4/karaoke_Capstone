@@ -9,9 +9,32 @@
 
 }
 
-<h1>Welcome to Hot Mic Karaoke the #1 spot to connect with other karaoke RockStar!</h1>
+    
+<center><h2>Alone, it's music.</h2></center>
+<center><h2>Together, it's magic.</h2></center>
 <div class="row">
-    <div class="col-md-4">
+
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <span>
+        <h5>Here are the TOP karaoke songs of the week!</h5>
+        <iframe width="260" height="215" src="https://www.youtube.com/embed/4Dn9d9Shqsg" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe width="260" height="215" src="https://www.youtube.com/embed/0J_z7RjLZfo" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe width="260" height="215" src="https://www.youtube.com/embed/an0JKXnnrAY" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        <iframe width="260" height="215" src="https://www.youtube.com/embed/DVxVXBpi7vc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </span>
+    <h5>Are you up for the challenge of preforming one of the top songs of the week at your next karaoke night?</h5>
+    <br>
+    <br>
+    <br>
+    <br>
+    <h5>Want to find karaoke tonight?</h5>
+    <h5>Click on the map and move it to the area you want to find karaoke spot.</h5>
+    
+    <span>
         <div id="map" style="height:400px; width:400px;"></div>
         <script>
             var map;
@@ -22,12 +45,15 @@
                     zoom: 15
                 });
         </script>
-        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyB9whEl4g8WSq6FISWqexwIaL2NhajoTDw">
-        </script>
-        <script src="~/js/maps.js"></script>
-    </div>
-    </div>
-<div class="col-md-8">
-    <button><a asp-controller="SongLists" asp-action="Index">Song List</a></button>
-   
+        <br>
+        <h5>Keep track of your preformances and favorite songs by clicking the tab below.</h5>
+        <button><a asp-controller="SongLists" asp-action="Index">Song List</a></button>
+    </span>
+
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyB9whEl4g8WSq6FISWqexwIaL2NhajoTDw">
+    </script>
+    <script src="~/js/maps.js"></script>
+
+
+
 </div>

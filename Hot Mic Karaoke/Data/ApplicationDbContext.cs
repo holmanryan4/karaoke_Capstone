@@ -60,6 +60,7 @@ namespace Hot_Mic_Karaoke.Data
         public DbSet<Hot_Mic_Karaoke.Models.Business> Business { get; set; }
         public DbSet<Hot_Mic_Karaoke.Models.SongList> SongList { get; set; }
         public DbSet<Hot_Mic_Karaoke.Models.Message> Messages { get; set; }
+        public DbSet<Hot_Mic_Karaoke.Models.KaraokeEvent> KaraokeEvent { get; set; }
         //public DbSet<Hot_Mic_Karaoke.Models.KaraokeEvent> KaraokeEvents{ get; set; }
 
     }
