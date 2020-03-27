@@ -65,9 +65,24 @@
 
                 
                 infoWindow.open(map, this);
+
             });
             return marker;
 
+            var marker = new google.maps.Marker({
+              position: new google.maps.LatLng(3.0334278,-87.9093028,),
+              map: map,
+              draggable:true,
+              icon:'/scripts/img/logo-footer.png'
+           });
+           
+           marker.setMap(map);
+           
+           var infowindow = new google.maps.InfoWindow({
+              content:"388-A , Road no 22, Jubilee Hills, Hyderabad Telangana, INDIA-500033"
+           });
+               
+           infowindow.open(map,marker);
         }
 
         function clearResults(markers){
@@ -79,6 +94,8 @@
 
         google.maps.event.addDomListener(window, 'load', initialize);
     </script>
+    
+     
     <style>
         html, body, #map{
             height: 80%;

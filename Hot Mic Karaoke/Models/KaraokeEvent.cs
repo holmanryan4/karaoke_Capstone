@@ -24,6 +24,10 @@ namespace Hot_Mic_Karaoke.Models
         [Required]
         public DateTime DateAndTime { get; set; }
 
+        [Display(Name = "Click to RSVP")]
+        [NotMapped]
+        public bool RSVP { get; set; }
+
         [ForeignKey("AppUser")]
         public string AppUserId { get; set; }
         public IdentityUser AppUser { get; set; }

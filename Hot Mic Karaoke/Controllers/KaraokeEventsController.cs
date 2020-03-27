@@ -79,7 +79,7 @@ namespace Hot_Mic_Karaoke.Controllers
         }
 
         // GET: KaraokeEvents/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, Member member, MemberEvent memberEvent)
         {
             if (id == null)
             {
@@ -93,6 +93,12 @@ namespace Hot_Mic_Karaoke.Controllers
             }
             ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id", karaokeEvent.AddressId);
             ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", karaokeEvent.AppUserId);
+            //if(karaokeEvent.RSVP == true)
+            //{
+            //    var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            //    member.AppUserId = userId;
+            //    _context.Add(karaokeEvent.MemberEvents);
+            //}
             return View(karaokeEvent);
         }
 
@@ -101,7 +107,7 @@ namespace Hot_Mic_Karaoke.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,EventName,EventInfo,DateAndTime,AppUserId,AddressId")] KaraokeEvent karaokeEvent)
+        public async Task<IActionResult> Edit(int id,  KaraokeEvent karaokeEvent)
         {
             if (id != karaokeEvent.Id)
             {
@@ -128,6 +134,7 @@ namespace Hot_Mic_Karaoke.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+
             ViewData["AddressId"] = new SelectList(_context.Set<Address>(), "Id", "Id", karaokeEvent.AddressId);
             ViewData["AppUserId"] = new SelectList(_context.Users, "Id", "Id", karaokeEvent.AppUserId);
             return View(karaokeEvent);

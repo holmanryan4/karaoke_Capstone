@@ -8,7 +8,10 @@
         @if (SignInManager.IsSignedIn(User))
         {
             <li class="nav-item">
-                <a class="nav-link text-light" asp-area="" asp-controller="KaraokeEvents" asp-action="Create">Creat Event</a>
+                <a class="nav-link text-light" asp-area="" asp-controller="KaraokeEvents" asp-action="Create">Create Event</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light" asp-area="" asp-controller="KaraokeEvents" asp-action="Index">Up Coming Events</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-light" asp-area="" asp-controller="Home" asp-action="iChat">Message Board</a>

@@ -10,36 +10,37 @@
     <h4>KaraokeEvent</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.EventName)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.EventName)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.EventInfo)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.EventInfo)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.DateAndTime)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.DateAndTime)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.AppUser)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Address.StreetAddress)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.AppUser.Id)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Address.City)
         </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Address)
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Address.State)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Address.Id)
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Address.ZipCode)
         </dd>
+       
     </dl>
 </div>
 <div>
